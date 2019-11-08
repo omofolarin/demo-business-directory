@@ -2,12 +2,41 @@ import schema, {
   IBusiness,
   ICategories,
   IBusinesses,
-  ICategory
+  ICategory,
+  IAdmin
 } from "../types/schema";
-import jsonWebToken from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
-export const business = (fromStorage: schema) => {
-  const onCreate = (saveToStorage: Function, data: IBusiness) => {
+/**
+ *
+ * @param description - contains business directory functions
+ * @param fromStorage - local-storage data
+ * @param saveToStorage
+ */
+export const business = (fromStorage: schema, saveToStorage: Function) => {
+  const updateCategory = (data: ICategory) => {
+    let isValid = fromStorage && fromStorage.categories ? true : false;
+    if (isValid && Array.isArray(fromStorage.categories)) {
+      const notItem = fromStorage.categories.filter(
+        (category: ICategory) => category.title !== data.title
+      )[0];
+      if (notItem) {
+        const list = fromStorage.categories;
+        list.push(data);
+        const saveData = { ...fromStorage, ...{ categories: list } };
+        try {
+          saveToStorage(saveData);
+          return true;
+        } catch (e) {
+          console.log(e);
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  const onCreate = (data: IBusiness) => {
     const findBusiness = onView(data.name);
     const list = onList();
     if (!findBusiness && saveToStorage && data && list) {
@@ -16,6 +45,10 @@ export const business = (fromStorage: schema) => {
         const saveData = { ...fromStorage, businesses: list };
         try {
           saveToStorage(saveData);
+          list.map((item: IBusiness) => {
+            item.categories.map(category => updateCategory(category));
+            return null;
+          });
           return { status: true, message: "Created new businesses directory" };
         } catch (e) {
           return {
@@ -41,7 +74,7 @@ export const business = (fromStorage: schema) => {
     return null;
   };
 
-  const onUpdate = (name: string, saveToStorage: Function, data: IBusiness) => {
+  const onUpdate = (name: string, data: IBusiness) => {
     let isValid = fromStorage && name && saveToStorage ? true : false;
     const businessName = onView(name);
     const list = onList();
@@ -65,7 +98,7 @@ export const business = (fromStorage: schema) => {
     return false;
   };
 
-  const onDelete = (name: string, saveToStorage: Function) => {
+  const onDelete = (name: string) => {
     let isValid = fromStorage && name && saveToStorage ? true : false;
     const businessName = onView(name);
     const list = onList();
@@ -98,7 +131,7 @@ export const business = (fromStorage: schema) => {
   return { onView, onCreate, onUpdate, onDelete, onList };
 };
 
-export const category = (fromStorage: schema) => {
+export const category = (fromStorage: schema, saveToStorage: Function) => {
   const onView = (name: string) => {
     let isValid = fromStorage && name ? true : false;
     isValid = fromStorage.categories ? true : false;
@@ -113,7 +146,7 @@ export const category = (fromStorage: schema) => {
     return null;
   };
 
-  const onCreate = (saveToStorage: Function, data: ICategory) => {
+  const onCreate = (data: ICategory) => {
     let isValid = fromStorage && data ? true : false;
     const list = onList();
     const findCategory = onView(data.title);
@@ -135,7 +168,7 @@ export const category = (fromStorage: schema) => {
     return false;
   };
 
-  const onUpdate = (saveToStorage: Function, data: ICategory) => {
+  const onUpdate = (data: ICategory) => {
     let isValid = fromStorage && data && saveToStorage ? true : false;
     const list = onList();
     const category = onView(data.description);
@@ -158,7 +191,7 @@ export const category = (fromStorage: schema) => {
     return false;
   };
 
-  const onDelete = (name: string, saveToStorage: Function) => {
+  const onDelete = (name: string) => {
     let isValid = fromStorage && name && saveToStorage ? true : false;
     const businessName = onView(name);
     const list = onList();
@@ -193,14 +226,56 @@ export const category = (fromStorage: schema) => {
   return { onView, onCreate, onUpdate, onDelete };
 };
 
-export const admin = () => {
-  const generateToken = () => {};
+export const admin = (fromStorage: schema, saveToStorage: Function) => {
+  const secret = "secret";
+  const generateToken = (email: string, password: string) => {
+    const data = { email, password };
+    return jwt.sign({ data }, secret, { expiresIn: "1h" });
+  };
 
-  const verifyToken = () => {};
+  const verifyToken = (token: string) => {
+    try {
+      return jwt.verify(token, secret);
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  };
 
-  const onRegister = () => {};
+  const onRegister = (data: IAdmin) => {
+    if (data) {
+      const getToken = generateToken(data.email, data.password);
+      if (getToken) {
+        try {
+          delete data.password;
+          const saveData = {
+            ...fromStorage,
+            admin: { ...data, token: getToken }
+          };
+          saveToStorage(saveData);
+          return { status: true, message: "Admin registered successfully" };
+        } catch (e) {
+          return {
+            e,
+            status: false
+          };
+        }
+      }
+    }
+    return false;
+  };
 
-  const onLogin = () => {};
+  const onLogin = (data: IAdmin) => {
+    if (fromStorage.admin) {
+      if (fromStorage.admin.token && verifyToken(fromStorage.admin.token)) {
+        return true;
+      }
+      if (onRegister(data)) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   return { onRegister, onLogin };
 };
@@ -245,7 +320,7 @@ export const app = (fromStorage: Record<string, any>) => {
         businesses: [],
         admin: null,
         categories: [],
-        analytics: { noViews: 0 },
+        analytics: { noViews: [] },
         app: { isInitialized: true }
       };
       try {
