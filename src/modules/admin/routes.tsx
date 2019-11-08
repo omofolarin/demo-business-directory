@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Interface from "./components/interface";
 import Login from "./pages/login";
+import { Button } from "@material-ui/core";
 
 interface Props {}
 
@@ -18,7 +19,14 @@ export default function Routes(): any {
         <Route path="/admin/manage">
           <Redirect from="/admin/manage" to="/admin/manage/businesses" />
           <Route path="/admin/manage/businesses">
-            <Interface>
+            <Interface
+              title="Manage Business Directories"
+              actions={
+                <Button variant="outlined" color="primary">
+                  Add a Business
+                </Button>
+              }
+            >
               <div>
                 <h1>biz admin Interface</h1>
               </div>

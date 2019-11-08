@@ -3,7 +3,7 @@ import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import BusinessIcon from "@material-ui/icons/Business";
 import CategoryIcon from "@material-ui/icons/Category";
 import IconButton from "@material-ui/core/IconButton";
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 interface Props {}
@@ -52,15 +52,43 @@ const useStyles = makeStyles((theme: Theme) =>
     topBarContainer: {
       width: "100%",
       backgroundColor: "#F5F5F5",
-      height: "5em"
+      height: "5em",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
     }
   })
 );
 
 export default function Interface(props: any): any {
+  const { title, actions } = props;
   const { children } = props;
   const classes = useStyles();
-  const topBar = <div className={classes.topBarContainer}></div>;
+  const topBar = (
+    <div className={classes.topBarContainer}>
+      {title && !actions && (
+        <Typography
+          variant="h1"
+          style={{ fontSize: "2em", textAlign: "center" }}
+        >
+          {title}
+        </Typography>
+      )}
+      {title && actions && (
+        <React.Fragment>
+          <div style={{ width: "85%" }}>
+            <Typography
+              variant="h1"
+              style={{ fontSize: "2em", textAlign: "center" }}
+            >
+              {title}
+            </Typography>
+          </div>
+          <div style={{ width: "15%" }}>{actions}</div>
+        </React.Fragment>
+      )}
+    </div>
+  );
 
   return (
     <div className={classes.container}>
