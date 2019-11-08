@@ -5,7 +5,7 @@ export interface IBusinesses {
 export interface IBusiness {
   name: string;
   description: string;
-  categories: ICategories;
+  categories: ICategory[];
   address: string;
   contactEmail: string;
   postalCode?: number;
@@ -39,16 +39,16 @@ export interface IImages {
 }
 
 export interface IAdmin {
-  firstName: string;
-  lastName: string;
-  username: string;
   password: string;
   email: string;
   token: string | null | undefined;
 }
 
 export interface IAnalytics {
-  noViews: number;
+  noViews: {
+    businessName: string;
+    views: number;
+  }[];
 }
 
 export interface IApp {
@@ -56,9 +56,9 @@ export interface IApp {
 }
 
 interface schema {
-  businesses: IBusinesses | IBusiness[] | [];
+  businesses: IBusinesses | IBusiness[];
   admin: IAdmin | null;
-  categories: ICategories | ICategory[] | [];
+  categories: ICategories | ICategory[];
   analytics: IAnalytics;
   app: IApp;
 }
