@@ -9,7 +9,7 @@ const Routes = () => {
       <Route path="/" exact>
         <Website />
       </Route>
-      <Route path="/chef">
+      <Route path="/admin">
         <Admin />
       </Route>
     </React.Fragment>

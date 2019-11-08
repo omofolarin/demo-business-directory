@@ -1,9 +1,10 @@
 import * as React from "react";
+import Routes from "./routes";
 
 const Admin = () => {
   return (
     <div>
-      <h1>Admin</h1>
+      <Routes />
     </div>
   );
 };
