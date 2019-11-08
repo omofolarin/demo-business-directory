@@ -6,6 +6,7 @@ import functions from "./functions";
 import { CssBaseline } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 import theme from "./theme";
+import ErrorBoundary from "./error-boundary";
 
 const App: React.FC = () => {
   const [storedValue, setValue] = useLocalStorage("businessDirectory", {});
@@ -22,12 +23,14 @@ const App: React.FC = () => {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <ProjectRoutes />
-      </Router>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <ProjectRoutes />
+        </Router>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 };
 

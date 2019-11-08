@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/browser";
 
 interface IProps {}
 
-class ErrorBoundary extends React.Component<IProps, any> {
+export default class ErrorBoundary extends React.Component<IProps, any> {
   constructor(props: IProps) {
     super(props);
     this.state = { hasError: false };
