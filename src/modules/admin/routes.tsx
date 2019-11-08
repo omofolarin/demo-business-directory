@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Interface from "./components/interface";
 import Login from "./pages/login";
 import { Button } from "@material-ui/core";
+import ListBusinesses from "./pages/businesses/index";
 
 interface Props {}
 
@@ -27,9 +28,7 @@ export default function Routes(): any {
                 </Button>
               }
             >
-              <div>
-                <h1>biz admin Interface</h1>
-              </div>
+              <ListBusinesses />
             </Interface>
           </Route>
 

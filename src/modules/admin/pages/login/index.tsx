@@ -4,15 +4,13 @@ import {
   Card,
   CardHeader,
   CardContent,
-  FormControl,
-  InputLabel,
   TextField,
   Button
 } from "@material-ui/core";
 
 interface Props {}
 
-export default function Login({  }: Props): any {
+export default function Login(props: Props): any {
   return (
     <Container maxWidth="sm">
       <div

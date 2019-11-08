@@ -426,7 +426,6 @@ export const app = (fromStorage: Record<string, any>) => {
 
     const init = () => {
       const initData = initializeStorage();
-      console.log(initData);
       if (initData) {
         const categories = dumbCategories(initData);
         if (categories) {
