@@ -3,6 +3,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import ProjectRoutes from "./routes";
 import useLocalStorage from "./hooks/use-localStorage";
 import functions from "./functions";
+import { CssBaseline } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
+import theme from "./theme";
 
 const App: React.FC = () => {
   const [storedValue, setValue] = useLocalStorage("businessDirectory", {});
@@ -19,9 +22,12 @@ const App: React.FC = () => {
   });
 
   return (
-    <Router>
-      <ProjectRoutes />
-    </Router>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <ProjectRoutes />
+      </Router>
+    </ThemeProvider>
   );
 };
 
