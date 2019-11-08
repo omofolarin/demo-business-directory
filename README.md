@@ -1,44 +1,27 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# A Classic Business Directory Service
 
-## Available Scripts
+## Features:
 
-In the project directory, you can run:
+- An admin can log in and create a listing for a business.  Save data to “mongodb OR sqldb OR Local-storage”
 
-### `yarn start`
+- The admin can create as many categories as he desires
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- A business can belong to multiple categories e.g If web design and software development are two different categories, INITS would belong to the two at the same time
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- The general public (no need for registration and login) can search and view listings. Search should go through name and description
 
-### `yarn test`
+- A listing should contain the name of the business, a description of what they do and spaces for website url, contact email, phones and address
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Listing can have more then one images
 
-### `yarn build`
+- The admin should be able to delete or modify a business listing
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- The admin should be able to see how many views a business listing has had.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Run on locally
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Run `yarn start`
 
-### `yarn eject`
+## Live Demo
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+[Live Demo](https://relaxed-kilby-99c666.netlify.com/)
