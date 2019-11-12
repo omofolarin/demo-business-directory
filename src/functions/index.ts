@@ -13,10 +13,10 @@ import jwt from "jsonwebtoken";
  * @param fromStorage - local-storage data
  * @param saveToStorage
  */
-export const business = (fromStorage: schema, saveToStorage: Function) => {
+export const business = (fromStorage: schema, saveToStorage?: Function) => {
   const updateCategory = (data: ICategory) => {
     let isValid = fromStorage && fromStorage.categories ? true : false;
-    if (isValid && Array.isArray(fromStorage.categories)) {
+    if (isValid && Array.isArray(fromStorage.categories) && saveToStorage) {
       const notItem = fromStorage.categories.filter(
         (category: ICategory) => category.title !== data.title
       )[0];
@@ -75,10 +75,10 @@ export const business = (fromStorage: schema, saveToStorage: Function) => {
   };
 
   const onUpdate = (name: string, data: IBusiness) => {
-    let isValid = fromStorage && name && saveToStorage ? true : false;
+    let isValid = fromStorage && name ? true : false;
     const businessName = onView(name);
     const list = onList();
-    if (isValid && businessName && list) {
+    if (isValid && businessName && saveToStorage && list) {
       const newList = list.filter(
         (item: IBusiness) => item.name !== businessName.name
       );
@@ -102,7 +102,7 @@ export const business = (fromStorage: schema, saveToStorage: Function) => {
     let isValid = fromStorage && name && saveToStorage ? true : false;
     const businessName = onView(name);
     const list = onList();
-    if (isValid && list && businessName) {
+    if (isValid && list && businessName && saveToStorage) {
       const newList = list.filter(
         (item: IBusiness) => item.name !== businessName.name
       );
@@ -131,7 +131,7 @@ export const business = (fromStorage: schema, saveToStorage: Function) => {
   return { onView, onCreate, onUpdate, onDelete, onList };
 };
 
-export const category = (fromStorage: schema, saveToStorage: Function) => {
+export const category = (fromStorage: schema, saveToStorage?: Function) => {
   const onView = (name: string) => {
     let isValid = fromStorage && name ? true : false;
     isValid = fromStorage.categories ? true : false;
@@ -169,10 +169,10 @@ export const category = (fromStorage: schema, saveToStorage: Function) => {
   };
 
   const onUpdate = (data: ICategory) => {
-    let isValid = fromStorage && data && saveToStorage ? true : false;
+    let isValid = fromStorage && data ? true : false;
     const list = onList();
     const category = onView(data.description);
-    if (isValid && list && category) {
+    if (isValid && list && category && saveToStorage) {
       const newList = list.filter(
         (category: ICategory) => category.title !== data.title
       );
@@ -192,10 +192,10 @@ export const category = (fromStorage: schema, saveToStorage: Function) => {
   };
 
   const onDelete = (name: string) => {
-    let isValid = fromStorage && name && saveToStorage ? true : false;
+    let isValid = fromStorage && name ? true : false;
     const businessName = onView(name);
     const list = onList();
-    if (isValid && businessName && list) {
+    if (isValid && businessName && list && saveToStorage) {
       const newFilter = list.filter(
         (category: ICategory) => category.title !== name
       );
@@ -223,7 +223,7 @@ export const category = (fromStorage: schema, saveToStorage: Function) => {
     return null;
   };
 
-  return { onView, onCreate, onUpdate, onDelete };
+  return { onView, onCreate, onUpdate, onDelete, onList };
 };
 
 export const admin = (fromStorage: schema, saveToStorage: Function) => {
