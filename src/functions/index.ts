@@ -352,8 +352,15 @@ export const app = (fromStorage: Record<string, any>) => {
             }
           ],
           address: "131 Kofo Aboyomi Street, Martins, Victorial Island Lagos",
-          logo:
-            "https://sellvy.com/static/08fdc2f97f4e54f2f0757654936073f1.svg",
+          logo: [
+            {
+              preview:
+                "https://sellvy.com/static/08fdc2f97f4e54f2f0757654936073f1.svg",
+              title: "",
+              url: "",
+              type: "jpg"
+            }
+          ],
           websiteUrl: "https://sellvy.com",
           listedAt: CurrentDate,
           updatedAt: CurrentDate,
@@ -373,8 +380,15 @@ export const app = (fromStorage: Record<string, any>) => {
             }
           ],
           address: "131 Kofo Aboyomi Street, Martins, Victorial Island Lagos",
-          logo:
-            "https://sellvy.com/static/08fdc2f97f4e54f2f0757654936073f1.svg",
+          logo: [
+            {
+              preview:
+                "https://sellvy.com/static/08fdc2f97f4e54f2f0757654936073f1.svg",
+              title: "",
+              url: "",
+              type: "jpg"
+            }
+          ],
           websiteUrl: "https://sellvy.com",
           listedAt: CurrentDate,
           updatedAt: CurrentDate,

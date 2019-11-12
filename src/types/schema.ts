@@ -10,8 +10,8 @@ export interface IBusiness {
   contactEmail: string;
   postalCode?: number;
   phone: string;
-  logo: string;
-  images?: IImages;
+  logo: IImage[];
+  images?: IImage[];
   websiteUrl: string;
   listedAt: Date;
   updatedAt: Date;
@@ -32,6 +32,8 @@ export interface IImage {
   title: string;
   type: "jpg" | "jpeg" | "png";
   url: string;
+  preview: string;
+  isLogo?: boolean;
 }
 
 export interface IImages {

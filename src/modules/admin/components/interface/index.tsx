@@ -15,7 +15,7 @@ export default function Interface(props: any): any {
       {title && !actions && (
         <Typography
           variant="h1"
-          style={{ fontSize: "2em", textAlign: "center" }}
+          style={{ fontSize: "1.2rem", textAlign: "center" }}
         >
           {title}
         </Typography>
@@ -25,7 +25,7 @@ export default function Interface(props: any): any {
           <div style={{ width: "85%" }}>
             <Typography
               variant="h1"
-              style={{ fontSize: "2em", textAlign: "center" }}
+              style={{ fontSize: "1.2rem", textAlign: "center" }}
             >
               {title}
             </Typography>
@@ -41,7 +41,7 @@ export default function Interface(props: any): any {
       <div className={classes.main}>
         <div style={{ width: "100%" }}>
           {topBar}
-          {children}
+          <div style={{ height: "90vh", overflowY: "scroll" }}>{children}</div>
         </div>
       </div>
       <Sidebar />

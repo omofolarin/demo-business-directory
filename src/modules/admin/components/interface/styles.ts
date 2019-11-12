@@ -26,12 +26,14 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       flexDirection: "column",
       height: "30vh",
-      justifyContent: "center"
+      justifyContent: "center",
+      alignSelf: "center"
     },
     sidebarNav: {
       color: "#fff",
       textTransform: "capitalize",
-      width: "100%"
+      width: "100%",
+      padding: "2em 0 2em 0"
     },
     main: {
       display: "flex",
@@ -39,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "88%",
       backgroundColor: "#fff",
       height: "100vh",
-      overflowY: "auto"
+      overflowY: "hidden"
     },
     topBarContainer: {
       width: "100%",
@@ -47,7 +49,8 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "5em",
       display: "flex",
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
+      boxShadow: "0px 3px 6px #ccc"
     },
     link: {
       "&:active": {
