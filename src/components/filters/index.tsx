@@ -1,5 +1,6 @@
 import React from "react";
 import { TextField } from "@material-ui/core";
+import CategoriesInput from "../categories-input";
 
 const Filters = () => {
   return (
@@ -10,19 +11,24 @@ const Filters = () => {
         height: "6em"
       }}
     >
-      <TextField
-        name="filter"
-        label="Filter"
-        margin="normal"
-        variant="outlined"
-        style={{ width: "31.33%", marginRight: "2%" }}
-      />
+      <div
+        style={{
+          width: "61.33%",
+          marginRight: "2%",
+          marginTop: "1%",
+          zIndex: 5,
+          backgroundColor: "#fff"
+        }}
+      >
+        <CategoriesInput input={{ onChange: () => {}, name: "", value: "" }} />
+      </div>
+
       <TextField
         name="search"
         label="Search"
         margin="normal"
         variant="outlined"
-        style={{ width: "31.33%" }}
+        style={{ width: "34.33%", marginTop: "1.7%", height: "3em" }}
       />
     </div>
   );
