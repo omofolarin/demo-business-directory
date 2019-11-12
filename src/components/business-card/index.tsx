@@ -58,7 +58,15 @@ const BusinessCard = (props: any) => {
   const classes = useStyles();
   const [isOpenedDelete, setDeleteModal] = React.useState<boolean>(false);
 
-  const { name, phone, website, logo, onEditRoute, onViewRoute, mode } = props;
+  const {
+    name,
+    phone,
+    websiteUrl,
+    logo,
+    onEditRoute,
+    onViewRoute,
+    mode
+  } = props;
   const onEdit = () => onEditRoute(name);
   const onView = () => onViewRoute(name);
   const onOpenDelete = () => {
@@ -119,7 +127,7 @@ const BusinessCard = (props: any) => {
           style={{
             position: "absolute",
             background: "transparent",
-            height: "100%",
+            height: "75%",
             width: "100%",
             cursor: "pointer"
           }}
@@ -140,7 +148,7 @@ const BusinessCard = (props: any) => {
                 {name}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
-                {website}
+                {websiteUrl}
               </Typography>
               <Typography variant="body1" color="textSecondary">
                 {phone}
