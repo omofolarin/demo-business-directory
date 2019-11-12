@@ -1,13 +1,18 @@
 import * as React from "react";
-import { IBusiness } from "../types/schema";
+import { IBusiness, IImage } from "../types/schema";
+import { useDropzone } from "react-dropzone";
 
-const useBusinessForm = (
-  register: Function,
-  SetValueInForm: Function,
-  setError: Function,
-  clearError: Function,
-  defaultValues?: IBusiness
-) => {
+interface IBusinessForm {
+  register: Function;
+  setValue: Function;
+  setError: Function;
+  clearError: Function;
+  defaultValues?: IBusiness;
+}
+
+const useBusinessForm = (props: IBusinessForm) => {
+  const { register, setValue, setError, clearError, defaultValues } = props;
+
   const [name, setName] = React.useState(
     defaultValues ? defaultValues.name : ""
   );
@@ -30,11 +35,23 @@ const useBusinessForm = (
     defaultValues ? defaultValues.phone : ""
   );
   const [logo, setLogo] = React.useState(
-    defaultValues ? defaultValues.logo : ""
+    defaultValues ? defaultValues.logo : []
   );
+
   const [images, setImages] = React.useState(
     defaultValues ? defaultValues.images : []
   );
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: "image/*",
+    onDrop: acceptedFiles => {
+      setImages(acceptedFiles.map(file =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        })
+      ) as any);
+    }
+  });
+
   const [websiteUrl, setWebsiteUrl] = React.useState(
     defaultValues ? defaultValues.websiteUrl : ""
   );
@@ -82,7 +99,14 @@ const useBusinessForm = (
 
   React.useEffect(() => {
     registerInputs(formState, register);
-  }, [register, formState]);
+    onChangeImages(images as any[]);
+  }, [register, images, formState]);
+
+  const onChangeImages = (images: any[]) => {
+    if (Array.isArray(logo)) {
+      images.forEach(file => URL.revokeObjectURL(file.preview));
+    }
+  };
 
   const registerInputs = (
     formState: Record<string, any>,
@@ -107,7 +131,6 @@ const useBusinessForm = (
   ) => {
     if (validatePattern) {
       const regex = RegExp(validatePattern.value);
-      console.log(regex.test(value));
 
       if (!regex.test(value)) {
         setError(name, "input", validatePattern.message);
@@ -125,7 +148,7 @@ const useBusinessForm = (
         const handleChange = input.onChange;
         const change = value;
         handleChange(change);
-        SetValueInForm(name, change);
+        setValue(name, change);
         validateInput(name, change, setError, clearError, input.pattern);
       }
     });
@@ -143,7 +166,11 @@ const useBusinessForm = (
 
   const formValues = getFormValues();
 
-  return { formValues, handleChange: onChange };
+  return {
+    formValues,
+    handleChange: onChange,
+    dropzone: { getRootProps, getInputProps }
+  };
 };
 
 export default useBusinessForm;
