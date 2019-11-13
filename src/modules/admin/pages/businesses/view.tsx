@@ -1,21 +1,7 @@
 import React from "react";
-// import {
-//   Card,
-//   TextField,
-//   CardContent,
-//   CardMedia,
-//   Typography,
-//   IconButton,
-//   Tooltip,
-//   Button
-// } from "@material-ui/core";
-// import DeleteIcon from "@material-ui/icons/Delete";
-// import EditIcon from "@material-ui/icons/Edit";
-// import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Interface from "../../components/interface";
-// import { useHistory, useLocation } from "react-router";
 
-export default function View({  }: any): any {
+export default function View(props: any): any {
   return (
     <Interface title="View a Business Directory">
       <div

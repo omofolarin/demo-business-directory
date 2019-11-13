@@ -5,17 +5,18 @@ import {
   CardMedia,
   Typography,
   IconButton,
-  Tooltip
+  Tooltip,
+  Menu,
+  MenuItem
 } from "@material-ui/core";
 import { Button } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 interface Props {}
 
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const BusinessCard = (props: any) => {
   const classes = useStyles();
   const [isOpenedDelete, setDeleteModal] = React.useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const {
     name,
@@ -65,8 +67,14 @@ const BusinessCard = (props: any) => {
     logo,
     onEditRoute,
     onViewRoute,
+    onDelete,
     mode
   } = props;
+  const handleDelete = () => {
+    handleCloseMenu();
+    onDelete(name);
+    onCloseDeleteModal();
+  };
   const onEdit = () => onEditRoute(name);
   const onView = () => onViewRoute(name);
   const onOpenDelete = () => {
@@ -74,6 +82,14 @@ const BusinessCard = (props: any) => {
   };
   const onCloseDeleteModal = () => {
     setDeleteModal(false);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const deleteAction = (
@@ -99,7 +115,7 @@ const BusinessCard = (props: any) => {
           No
         </Button>
         <Button
-          onClick={() => {}}
+          onClick={handleDelete}
           color="primary"
           autoFocus
           style={{ color: "#fff", backgroundColor: "#ed2618" }}
@@ -122,17 +138,6 @@ const BusinessCard = (props: any) => {
           position: "relative"
         }}
       >
-        {" "}
-        <div
-          style={{
-            position: "absolute",
-            background: "transparent",
-            height: "75%",
-            width: "100%",
-            cursor: "pointer"
-          }}
-          onClick={onView}
-        ></div>
         <Card className={[classes.card, classes.bizCardContainer].join(" ")}>
           <div className={classes.details}>
             <CardContent className={classes.content}>
@@ -156,23 +161,33 @@ const BusinessCard = (props: any) => {
             </CardContent>
             {mode === "manage" && (
               <div className={classes.controls}>
-                <Tooltip title="Edit" onClick={onEdit}>
-                  <IconButton aria-label="edit">
-                    <EditIcon />
+                <Tooltip title="Actions" onClick={handleOpenMenu}>
+                  <IconButton
+                    aria-label="edit"
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                  >
+                    <MoreVertIcon />
                   </IconButton>
                 </Tooltip>
 
-                <Tooltip title="Delete" onClick={onOpenDelete}>
-                  <IconButton aria-label="delete">
-                    <DeleteIcon />
-                  </IconButton>
-                </Tooltip>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleCloseMenu}
+                >
+                  <MenuItem onClick={onView}>View</MenuItem>
+                  <MenuItem onClick={onEdit}>Edit</MenuItem>
+                  <MenuItem onClick={onOpenDelete}>Delete</MenuItem>
+                </Menu>
               </div>
             )}
           </div>
           <CardMedia
             className={classes.cover}
-            image={logo}
+            image={logo ? logo.preview : ""}
             title={name}
             style={{
               width: "100%",

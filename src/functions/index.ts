@@ -271,13 +271,14 @@ export const admin = (fromStorage: schema, saveToStorage: Function) => {
         return true;
       }
       if (onRegister(data)) {
+        console.log("got here");
         return true;
       }
     }
     return false;
   };
 
-  return { onRegister, onLogin };
+  return { onRegister, onLogin, verifyToken };
 };
 
 export const upload = () => {
@@ -318,7 +319,7 @@ export const app = (fromStorage: Record<string, any>) => {
     const initializeStorage = () => {
       const dataSchema: schema = {
         businesses: [],
-        admin: null,
+        admin: {} as any,
         categories: [],
         analytics: { noViews: [] },
         app: { isInitialized: true }

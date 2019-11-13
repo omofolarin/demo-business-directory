@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IBusiness, IImage } from "../types/schema";
+import { IBusiness } from "../types/schema";
 import { useDropzone } from "react-dropzone";
 
 interface IBusinessForm {
@@ -35,7 +35,7 @@ const useBusinessForm = (props: IBusinessForm) => {
     defaultValues ? defaultValues.phone : ""
   );
   const [logo, setLogo] = React.useState(
-    defaultValues ? defaultValues.logo : []
+    defaultValues ? defaultValues.logo : {}
   );
 
   const [images, setImages] = React.useState(
@@ -44,11 +44,25 @@ const useBusinessForm = (props: IBusinessForm) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: acceptedFiles => {
-      setImages(acceptedFiles.map(file =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file)
-        })
-      ) as any);
+      setImages(
+        acceptedFiles.map(file =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file)
+          })
+        ) as any
+      );
+      setValue(
+        "images",
+        acceptedFiles.map(file =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file)
+          })
+        ) as any
+      );
+
+      //set first upload as logo
+      setLogo(acceptedFiles[0]);
+      setValue("logo", acceptedFiles[0]);
     }
   });
 
@@ -80,9 +94,9 @@ const useBusinessForm = (props: IBusinessForm) => {
         message: "Invalid email address"
       }
     },
-    postalCode: { value: postalCode, onChange: setPostalCode, required: true },
+    postalCode: { value: postalCode, onChange: setPostalCode },
     phone: { value: phone, onChange: setPhone, required: true },
-    logo: { value: logo, onChange: setLogo, required: true },
+    logo: { value: logo, onChange: setLogo },
     images: { value: images, onChange: setImages, required: true },
     websiteUrl: {
       value: websiteUrl,
@@ -99,14 +113,14 @@ const useBusinessForm = (props: IBusinessForm) => {
 
   React.useEffect(() => {
     registerInputs(formState, register);
-    onChangeImages(images as any[]);
+    // onChangeImages(images as any[]);
   }, [register, images, formState]);
 
-  const onChangeImages = (images: any[]) => {
-    if (Array.isArray(logo)) {
-      images.forEach(file => URL.revokeObjectURL(file.preview));
-    }
-  };
+  // const onChangeImages = (images: any[]) => {
+  //   if (Array.isArray(logo)) {
+  //     images.forEach(file => URL.revokeObjectURL(file.preview));
+  //   }
+  // };
 
   const registerInputs = (
     formState: Record<string, any>,
@@ -119,6 +133,7 @@ const useBusinessForm = (props: IBusinessForm) => {
         : {};
 
       register({ name }, { required: isRequired, ...getPattern });
+      return null;
     });
   };
 
@@ -151,14 +166,15 @@ const useBusinessForm = (props: IBusinessForm) => {
         setValue(name, change);
         validateInput(name, change, setError, clearError, input.pattern);
       }
+      return null;
     });
-    return null;
   };
 
   const getFormValues = () => {
     const formValues: Record<string, any> = {};
     Object.keys(formState).map((key: string) => {
       formValues[key] = (formState as any)[key].value;
+      return null;
     });
 
     return formValues;

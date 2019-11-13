@@ -1,5 +1,9 @@
 import * as React from "react";
-import { TextField, Button, Typography, Modal } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Snackbar
+} from "@material-ui/core";
 import CategoriesInput from "../../../../components/categories-input";
 import Media from "./media";
 import MediaModal from "./media-modal";
@@ -16,8 +20,41 @@ const BusinessForm = (props: any) => {
     onOpenMediaModal,
     onCloseMediaModal
   } = props;
+
+  let showErrors = null;
+  const [formErrors, setFormErrors] = React.useState<Record<string, any>>({});
+  React.useEffect(() => {
+    if (Object.values(errors).length > 0) {
+      setFormErrors(errors);
+    }
+  }, [errors, setFormErrors]);
+
+  if (Object.values(formErrors).length > 0) {
+    showErrors = Object.values(errors).map((error: any, i: number) => {
+      console.log(error);
+      return (
+        <Snackbar
+          key={i.toString()}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          open={error ? true : false}
+          ContentProps={{
+            "aria-describedby": "message-id"
+          }}
+          message={
+            <span id="message-id">
+              {error.message === ""
+                ? `${error.ref.name} is required`
+                : "Cannot create message"}
+            </span>
+          }
+        />
+      );
+    });
+  }
+
   return (
     <React.Fragment>
+      {showErrors}
       <MediaModal
         {...{
           isOpenMediaUploadModal,
@@ -47,7 +84,11 @@ const BusinessForm = (props: any) => {
               marginRight: "auto"
             }}
           >
-            <Media images={formValues.images} dropzone={dropzone} />
+            <Media
+              images={formValues.images}
+              dropzone={dropzone}
+              logo={formValues.logo}
+            />
             <div
               style={{
                 width: "65%",

@@ -1,7 +1,6 @@
 import React from "react";
 import BusinessIcon from "@material-ui/icons/Business";
 import CategoryIcon from "@material-ui/icons/Category";
-import IconButton from "@material-ui/core/IconButton";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import useStyles from "./styles";

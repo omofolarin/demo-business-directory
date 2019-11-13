@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Typography, Modal } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 const Media = (props: any) => {
-  const { images } = props;
+  const { images, logo } = props;
   const thumbnailImages = Array.isArray(images)
     ? images.map((image: Record<string, any>, i: number) => (
         <div
@@ -55,7 +55,11 @@ const Media = (props: any) => {
               border: "1px solid #cccccc",
               borderRadius: "50%"
             }}
-          ></div>
+          >
+            {logo.preview && (
+              <img src={logo.preview} alt="upload" style={{ width: "100%" }} />
+            )}
+          </div>
           {/* 
             <Button
               style={{ marginTop: "1em", width: "10em" }}

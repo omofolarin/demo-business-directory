@@ -231,7 +231,7 @@ const components = {
 };
 
 export default function IntegrationReactSelect(props: any) {
-  const { input, style } = props;
+  const { input } = props;
   const classes = useStyles();
   const theme = useTheme();
 

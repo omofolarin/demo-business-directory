@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Typography, Modal } from "@material-ui/core";
-import Media from "./media";
 
 const MediaModal = (props: any) => {
   const { isOpenMediaUploadModal, onCloseMediaModal, dropzone, images } = props;
